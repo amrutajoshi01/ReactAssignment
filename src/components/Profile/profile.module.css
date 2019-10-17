@@ -1,0 +1,20 @@
+.profile{
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 16px;
+    margin: 20px auto;
+    box-shadow: 0px 0px 5px 1px darkgrey;
+    width:70%;
+    padding: 20px;
+}
+
+#uName{
+    color: rgb(0, 0, 83);
+    font-weight:bold;
+    font-size: 20px;
+}
+
+.details{
+    padding: 5px;
+}
+

@@ -1,0 +1,36 @@
+nav{
+    background-color: rgb(49, 157, 219);
+    padding: 10px;
+    box-shadow: 0px 3px 4px 0px rgba(50, 50, 50, 0.70);
+}
+ul{
+    display:inline;
+}
+ul > li, DropDown{
+    padding-right: 10px;
+    display: inline;
+}
+
+li > a, .button{
+    padding: 12px;  
+    border-radius: 5px;
+    font-size: 20px;
+    font-family: sans-serif;
+    text-decoration: none;
+}
+li > a:link, .button{
+    color: white;
+}
+
+li >a:visited{
+    color: white;
+}
+li >a:hover, .button:hover{
+    color: rgb(49, 157, 219);
+    background-color:white;
+}
+
+li >a:active{
+    color: blue;
+}
+
