@@ -27,17 +27,18 @@ class MainComponent extends Component {
     }
 
     onAuthentication = () =>{
-        
+        this.setState({
+            isAuthenticated: true,
+        });
     }
 
     render() {
         const { user } = this.state;
-        const { isAuthenticated } = this.state;
         console.log('isAuthenticated: ' + this.state.isAuthenticated);
         return (
             <div className="main" >
                 <Router>
-                    <Navbar {...isAuthenticated} />
+                    <Navbar onAuthentication={this.onAuthentication}  />
                     <Switch>
                         <Route exact path="/profile">
                             <Profile {...user} />
@@ -46,7 +47,7 @@ class MainComponent extends Component {
                             <App />
                         </Route>
                         <Route exact path="/login">
-                            <Login isAuthenticated={this.state.isAuthenticated} />
+                            <Login onAuthentication={this.onAuthentication} />
                         </Route>
                         <Route exact path="/product">
                             <ProductDisplay />

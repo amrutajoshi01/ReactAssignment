@@ -12,7 +12,6 @@ class Product extends Component {
 
     render() {
         const product = this.props.product;
-        console.log(product);
         return (
             <div className="product">
                 <img className="image" src={product.imgPath} alt={product.name} />

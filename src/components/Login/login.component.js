@@ -14,10 +14,12 @@ class Login extends Component {
 
     signout = () => {
         this.setState({
-            isAuthenticated: false,
+            isAuthenticated: true,
         });
     }
 
+    
+    
     componentDidMount = () => {
         this.setState({
             username: '',
@@ -42,15 +44,12 @@ class Login extends Component {
 
         this.setState({ error: '' });
         if (this.state.username == "user" && this.state.password == 123) {
-            this.setState({
-                isAuthenticated: true,
-            });
-            this.context.history.push('/Product');
+            this.props.onAuthentication();
+            this.props.router.push('/Product');
             localStorage.setItem('username', this.state.username);
             localStorage.setItem('password', this.state.password);
-            
-
         }
+
         else {
             return this.setState({ error: 'Invalid Username or Password' });
             this.props.history.push('/login');

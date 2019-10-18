@@ -12,18 +12,12 @@ class Navbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showMenuItems: true,
+            showMenuItems: this.props.onAuthentication(),
         }
     }
 
-    componentDidMount() {
-        console.log('isAuthenticated: ' + this.props.isAuthenticated);
-        this.setState({ showMenuItems: this.props.isAuthenticated, });
-
-    }
-
     render() {
-        
+
         return (
             <Router>
                 <nav className="nav-wrapper">
@@ -38,7 +32,6 @@ class Navbar extends Component {
                             {this.state.showMenuItems && <li ><a href="/login">Login</a></li>}
                             {this.state.showMenuItems && <li><DropDown /></li>}
                         </ul>
-
                     </div>
                 </nav>
             </Router>
