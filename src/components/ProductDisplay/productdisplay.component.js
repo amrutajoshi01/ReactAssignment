@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import ProductList from '../ProductList/productlist.component'
 import data from '../data'
+import Product from '../Product/product.component'
 
 class ProductDisplay extends Component {
 
@@ -11,13 +11,23 @@ class ProductDisplay extends Component {
         }
     }
 
+    addToCart = () => {
+        console.log('add to cart');
+    }
+
     render() {
         return (
-
-            <div>
-                <ProductList pdts={this.state.pdts} > </ProductList>
-            </div>
-
+            // <div>
+            //     {
+            this.state.pdts.map(product => (
+                <Product
+                    key={product.id}
+                    product={product}
+                    addToCart={this.addToCart}
+                />
+            ))
+            //     }
+            // </div>
         );
     }
 }

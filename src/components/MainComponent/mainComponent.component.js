@@ -9,6 +9,7 @@ import ProductDisplay from '../ProductDisplay/productdisplay.component';
 import Profile from '../Profile/profile.component';
 import App from "../App/App.component";
 import Navbar from '../Navbar/navbar.component';
+import Cart from "../Cart/cart.component"
 
 import "./mainComponent.css"
 class MainComponent extends Component {
@@ -20,25 +21,31 @@ class MainComponent extends Component {
                 username: 'user',
                 dob: '01/01/1997',
                 contact: '11111111',
-                userImg: "../images/user.jpg"
+                userImg: "../images/user.jpg",
             },
             isAuthenticated: false,
         }
     }
 
-    onAuthentication = () =>{
+    onAuthentication = () => {
         this.setState({
             isAuthenticated: true,
         });
     }
 
+    cartCountIncrement = () => {
+        return 1;
+    }
+
     render() {
         const { user } = this.state;
+
+
         console.log('isAuthenticated: ' + this.state.isAuthenticated);
         return (
             <div className="main" >
                 <Router>
-                    <Navbar onAuthentication={this.onAuthentication}  />
+                    <Navbar onAuthentication={this.onAuthentication} cartCountIncrement={this.cartCountIncrement} />
                     <Switch>
                         <Route exact path="/profile">
                             <Profile {...user} />
@@ -53,6 +60,7 @@ class MainComponent extends Component {
                             <ProductDisplay />
                         </Route>
                     </Switch>
+                    <Cart getCartCount={this.cartCountIncrement} />
                 </Router >
             </div >
         );

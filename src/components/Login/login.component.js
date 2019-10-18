@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import { withRouter } from 'react-router-dom' 
+import { withRouter } from 'react-router-dom'; 
 import './login.css';
 
 class Login extends Component {
@@ -17,9 +17,7 @@ class Login extends Component {
             isAuthenticated: true,
         });
     }
-
-    
-    
+ 
     componentDidMount = () => {
         this.setState({
             username: '',
@@ -45,7 +43,9 @@ class Login extends Component {
         this.setState({ error: '' });
         if (this.state.username == "user" && this.state.password == 123) {
             this.props.onAuthentication();
-            this.props.router.push('/Product');
+            //console.log(this.props.history);
+            this.props.history.push('/Product');
+            
             localStorage.setItem('username', this.state.username);
             localStorage.setItem('password', this.state.password);
         }
@@ -91,4 +91,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default withRouter(Login);
