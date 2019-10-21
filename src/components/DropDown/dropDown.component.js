@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import "./dropdown.css";
 class DropDown extends Component {
     constructor() {
@@ -22,8 +23,10 @@ class DropDown extends Component {
 
     }
 
-    handleLogout = () =>{
-        localStorage.clear();
+    handleLogout = () => {
+        localStorage.removeItem('username', this.state.username);
+        localStorage.removeItem('password', this.state.password);
+        this.props.onAuthentication(false);
     }
 
     render() {
@@ -32,9 +35,10 @@ class DropDown extends Component {
                 <button className="dropButton" onClick={this.showDropDown}>User</button>
                 {this.state.displayDropDown ? (
                     <div className="dropdownMenu">
-                        <a href="/profile">Profile</a>
-                        <a href="#">Settings</a>
-                        <a href="/" onClick={this.handleLogout}>Logout</a>
+                        <Link to="/profile">Profile</Link>
+                        <Link to="/cart">Cart</Link>
+                        <Link to="#">Settings</Link>
+                        <Link to="/login" onClick={this.handleLogout}>Logout</Link>
                     </div>
                 ) :
                     (

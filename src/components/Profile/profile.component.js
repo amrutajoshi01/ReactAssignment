@@ -11,8 +11,8 @@ class Profile extends Component {
             <div className={style.profile}>
                 <img src={this.props.userImg} alt={this.props.name} />
                 <p id="uName">{username}</p>
-                <p className="details">Date of Birth: {this.props.dob}</p>
-                <p className="details">Contact: {this.props.contact}</p>
+                <p className={style.details}>Date of Birth: {this.props.dob}</p>
+                <p className={style.details}>Contact: {this.props.contact}</p>
             </div>
         );
     }

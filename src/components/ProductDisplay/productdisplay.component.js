@@ -11,8 +11,13 @@ class ProductDisplay extends Component {
         }
     }
 
-    addToCart = () => {
-        console.log('add to cart');
+    addToCart = (event) => {
+        if(this.props.isAuthenticated)
+            console.log('add to cart' + event.target.value);
+
+        else{
+            alert('please Login to add to cart');
+        }
     }
 
     render() {

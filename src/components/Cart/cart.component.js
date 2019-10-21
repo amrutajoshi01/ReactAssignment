@@ -4,13 +4,12 @@ class Cart extends Component{
     constructor(props){
         super(props);
         this.state ={
-            count: 0
+            cartCount: 0
         }
     }
 
     getCartCount = () =>{
-        console.log(this.props.cartCountIncrement());
-        return this.state.count;
+        this.props.displayCartCount(this.state.cartCount);
     }
     
     render(){

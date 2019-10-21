@@ -10,8 +10,12 @@ import Profile from '../Profile/profile.component';
 import App from "../App/App.component";
 import Navbar from '../Navbar/navbar.component';
 import Cart from "../Cart/cart.component"
+import SignUp from '../SignUp/old';
+
+import { Provider as AlertProvider } from 'react-alert'
 
 import "./mainComponent.css"
+
 class MainComponent extends Component {
 
     constructor(props) {
@@ -27,25 +31,34 @@ class MainComponent extends Component {
         }
     }
 
-    onAuthentication = () => {
+    componentDidMount = () =>{
         this.setState({
-            isAuthenticated: true,
+            isAuthenticated: localStorage.getItem('isAuthenticated')
         });
     }
 
-    cartCountIncrement = () => {
-        return 1;
+    onAuthentication = (value) => {
+        this.setState({
+            isAuthenticated: value,
+        });
+        localStorage.setItem('isAuthenticated', value);
     }
+
+    displayCartCount = (cartCount) => {
+        return cartCount;
+    }
+
+    
 
     render() {
         const { user } = this.state;
 
-
-        console.log('isAuthenticated: ' + this.state.isAuthenticated);
+        console.log('MainComponent: isAuthenticated: ' + this.state.isAuthenticated);
         return (
             <div className="main" >
-                <Router>
-                    <Navbar onAuthentication={this.onAuthentication} cartCountIncrement={this.cartCountIncrement} />
+                {/* <Router> */}
+                    {/* <Navbar onAuthentication={this.onAuthentication} displayCartCount={this.displayCartCount} /> */}
+                    <Navbar isAuthenticated={this.isAuthenticated} displayCartCount={this.displayCartCount} />
                     <Switch>
                         <Route exact path="/profile">
                             <Profile {...user} />
@@ -57,11 +70,14 @@ class MainComponent extends Component {
                             <Login onAuthentication={this.onAuthentication} />
                         </Route>
                         <Route exact path="/product">
-                            <ProductDisplay />
+                            <ProductDisplay isAuthenticated={this.state.isAuthenticated}/>
+                        </Route>
+                        <Route exact path="/signup">
+                            <SignUp />
                         </Route>
                     </Switch>
-                    <Cart getCartCount={this.cartCountIncrement} />
-                </Router >
+                    <Cart displayCartCount={this.displayCartCount} />
+                {/* </Router > */}
             </div >
         );
     }
