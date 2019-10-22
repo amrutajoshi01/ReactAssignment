@@ -14,12 +14,12 @@ class Navbar extends Component {
     }
 
     componentDidMount = () => {
-        //document.getElementById('cartIcon').innerHTML += this.props.cartCountIncrement();
+        if(this.props.isAuthenticated)
+            document.getElementById('cartIcon').innerHTML += this.props.cartCount;
     }
 
     render() {
-        //this.props.displayCartCount();
-        console.log('Navbar: isAuthenticated: ' + this.props.isAuthenticated);
+        console.log('Navbar: isAuthenticated: ' + this.props.isAuthenticated, typeof this.props.isAuthenticated);
         return (
             <nav className="nav-wrapper">
                 <div className="container">
@@ -30,10 +30,9 @@ class Navbar extends Component {
                         <li><input type="text" placeholder="Search" /> </li>
                     </ul>
                     <ul className="toggle">
-                        {this.props.isAuthenticated && <li ><Link to="/login">Login</Link></li>}
-                        {!this.props.isAuthenticated && <li><DropDown onAuthentication={this.props.onAuthentication} /></li>}
-                        <li id="cartIcon"><i className="fa fa-shopping-cart"></i></li>
-                        {/* {this.props.isAuthenticated && <li ><Link to="/signup">SignUp</Link></li>} */}
+                        {!this.props.isAuthenticated && <li ><Link to="/login">Login</Link></li>}
+                        {this.props.isAuthenticated && <li><DropDown onAuthentication={this.props.onAuthentication} /></li>}
+                        {this.props.isAuthenticated && <li id="cartIcon"><i className="fa fa-shopping-cart">{this.props.cartCount}</i></li>}
                     </ul>
                 </div>
             </nav>

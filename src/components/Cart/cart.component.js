@@ -8,10 +8,14 @@ class Cart extends Component{
         }
     }
 
-    getCartCount = () =>{
+    componentDidMount = () =>{
         this.props.displayCartCount(this.state.cartCount);
     }
     
+    getCartCount = () =>{
+        this.props.displayCartCount(this.state.cartCount);
+    }
+
     render(){
         return(<h1></h1>);
     }

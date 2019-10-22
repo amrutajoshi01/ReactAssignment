@@ -12,9 +12,10 @@ class ProductDisplay extends Component {
     }
 
     addToCart = (event) => {
-        if(this.props.isAuthenticated)
+        if(this.props.isAuthenticated){
             console.log('add to cart' + event.target.value);
-
+            this.props.incrementCartCount();
+        }
         else{
             alert('please Login to add to cart');
         }

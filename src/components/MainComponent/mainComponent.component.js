@@ -10,9 +10,7 @@ import Profile from '../Profile/profile.component';
 import App from "../App/App.component";
 import Navbar from '../Navbar/navbar.component';
 import Cart from "../Cart/cart.component"
-import SignUp from '../SignUp/old';
-
-import { Provider as AlertProvider } from 'react-alert'
+import SignUp from '../SignUp';
 
 import "./mainComponent.css"
 
@@ -28,27 +26,32 @@ class MainComponent extends Component {
                 userImg: "../images/user.jpg",
             },
             isAuthenticated: false,
+            cartCount: 0
         }
+
     }
 
-    componentDidMount = () =>{
+    componentDidMount = () => {
         this.setState({
-            isAuthenticated: localStorage.getItem('isAuthenticated')
+            isAuthenticated: localStorage.getItem('isAuthenticated') === 'true'
         });
     }
 
-    onAuthentication = (value) => {
+    onAuthentication = () => {
         this.setState({
-            isAuthenticated: value,
+            isAuthenticated: localStorage.getItem('isAuthenticated') === 'true'
         });
-        localStorage.setItem('isAuthenticated', value);
     }
 
     displayCartCount = (cartCount) => {
-        return cartCount;
+        this.setState({ cartCount: cartCount });
     }
 
-    
+    incrementCartCount = () => {
+        this.setState({ cartCount: this.state.cartCount + 1 });
+    }
+
+
 
     render() {
         const { user } = this.state;
@@ -57,26 +60,27 @@ class MainComponent extends Component {
         return (
             <div className="main" >
                 {/* <Router> */}
-                    {/* <Navbar onAuthentication={this.onAuthentication} displayCartCount={this.displayCartCount} /> */}
-                    <Navbar isAuthenticated={this.isAuthenticated} displayCartCount={this.displayCartCount} />
-                    <Switch>
-                        <Route exact path="/profile">
-                            <Profile {...user} />
-                        </Route>
-                        <Route exact path="/">
-                            <App />
-                        </Route>
-                        <Route exact path="/login">
-                            <Login onAuthentication={this.onAuthentication} />
-                        </Route>
-                        <Route exact path="/product">
-                            <ProductDisplay isAuthenticated={this.state.isAuthenticated}/>
-                        </Route>
-                        <Route exact path="/signup">
-                            <SignUp />
-                        </Route>
-                    </Switch>
-                    <Cart displayCartCount={this.displayCartCount} />
+                <Navbar isAuthenticated={this.state.isAuthenticated} onAuthentication={this.onAuthentication} cartCount={this.state.cartCount} />
+                <Switch>
+                    <Route exact path="/profile">
+                        <Profile {...user} />
+                    </Route>
+                    <Route exact path="/">
+                        <App />
+                    </Route>
+                    <Route exact path="/login">
+                        <Login onAuthentication={this.onAuthentication} />
+                    </Route>
+                    <Route exact path="/product">
+                        <ProductDisplay isAuthenticated={this.state.isAuthenticated} incrementCartCount={this.incrementCartCount} />
+                    </Route>
+                    <Route exact path="/signup">
+                        <SignUp />
+                    </Route>
+                    <Route exact path="/cart">
+                        <Cart displayCartCount={this.displayCartCount} ref={this.cartElement} />
+                    </Route>
+                </Switch>
                 {/* </Router > */}
             </div >
         );

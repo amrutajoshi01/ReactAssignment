@@ -40,8 +40,9 @@ class Login extends Component {
             
             localStorage.setItem('username', this.state.username);
             localStorage.setItem('password', this.state.password);
-            
-            this.props.onAuthentication(true);
+            localStorage.setItem('isAuthenticated', true);
+
+            this.props.onAuthentication();
             this.props.history.push('/Product');
         }
 

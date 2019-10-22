@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import {useAlert} from 'react-alert';
 
 import "./styles.css";
 
@@ -91,8 +90,6 @@ class SignUp extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const alert = useAlert();
-
     if (this.handleValidation()) {
       this.setState({
         email: '',
@@ -102,7 +99,6 @@ class SignUp extends Component {
         hasAgreed: false,
       });
 
-      alert.success("You Have Signed Up Successfully!");
       this.props.history.push('/login');
     }
   }

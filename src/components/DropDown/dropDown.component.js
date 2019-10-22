@@ -26,7 +26,8 @@ class DropDown extends Component {
     handleLogout = () => {
         localStorage.removeItem('username', this.state.username);
         localStorage.removeItem('password', this.state.password);
-        this.props.onAuthentication(false);
+        localStorage.setItem('isAuthenticated', false);
+        this.props.onAuthentication();
     }
 
     render() {
@@ -38,7 +39,7 @@ class DropDown extends Component {
                         <Link to="/profile">Profile</Link>
                         <Link to="/cart">Cart</Link>
                         <Link to="#">Settings</Link>
-                        <Link to="/login" onClick={this.handleLogout}>Logout</Link>
+                        <a href="/login" onClick={this.handleLogout}>Logout</a>
                     </div>
                 ) :
                     (
