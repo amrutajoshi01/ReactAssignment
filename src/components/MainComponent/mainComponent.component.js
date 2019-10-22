@@ -4,6 +4,7 @@ import {
     Switch,
     Route,
 } from 'react-router-dom'
+import { Provider } from 'react-redux'
 import Login from '../Login/login.component';
 import ProductDisplay from '../ProductDisplay/productdisplay.component';
 import Profile from '../Profile/profile.component';
@@ -59,29 +60,29 @@ class MainComponent extends Component {
         console.log('MainComponent: isAuthenticated: ' + this.state.isAuthenticated);
         return (
             <div className="main" >
-                {/* <Router> */}
-                <Navbar isAuthenticated={this.state.isAuthenticated} onAuthentication={this.onAuthentication} cartCount={this.state.cartCount} />
-                <Switch>
-                    <Route exact path="/profile">
-                        <Profile {...user} />
-                    </Route>
-                    <Route exact path="/">
-                        <App />
-                    </Route>
-                    <Route exact path="/login">
-                        <Login onAuthentication={this.onAuthentication} />
-                    </Route>
-                    <Route exact path="/product">
-                        <ProductDisplay isAuthenticated={this.state.isAuthenticated} incrementCartCount={this.incrementCartCount} />
-                    </Route>
-                    <Route exact path="/signup">
-                        <SignUp />
-                    </Route>
-                    <Route exact path="/cart">
-                        <Cart displayCartCount={this.displayCartCount} ref={this.cartElement} />
-                    </Route>
-                </Switch>
-                {/* </Router > */}
+                <Router>
+                    <Navbar isAuthenticated={this.state.isAuthenticated} onAuthentication={this.onAuthentication} cartCount={this.state.cartCount} />
+                    <Switch>
+                        <Route exact path="/profile">
+                            <Profile {...user} />
+                        </Route>
+                        <Route exact path="/">
+                            <App />
+                        </Route>
+                        <Route exact path="/login">
+                            <Login onAuthentication={this.onAuthentication} />
+                        </Route>
+                        <Route exact path="/product">
+                            <ProductDisplay isAuthenticated={this.state.isAuthenticated} incrementCartCount={this.incrementCartCount} />
+                        </Route>
+                        <Route exact path="/signup">
+                            <SignUp />
+                        </Route>
+                        <Route exact path="/cart">
+                            <Cart displayCartCount={this.displayCartCount} ref={this.cartElement} />
+                        </Route>
+                    </Switch>
+                </Router >
             </div >
         );
     }

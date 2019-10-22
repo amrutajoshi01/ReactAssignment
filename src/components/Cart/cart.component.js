@@ -1,23 +1,40 @@
 import React, { Component } from 'react';
-
-class Cart extends Component{
-    constructor(props){
+import { connect } from 'react-redux'
+class Cart extends Component {
+    constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             cartCount: 0
         }
     }
 
-    componentDidMount = () =>{
-        this.props.displayCartCount(this.state.cartCount);
-    }
-    
-    getCartCount = () =>{
+    componentDidMount = () => {
         this.props.displayCartCount(this.state.cartCount);
     }
 
-    render(){
-        return(<h1></h1>);
+    getCartCount = () => {
+        this.props.displayCartCount(this.state.cartCount);
+    }
+
+    render() {
+        return (
+            this.state.pdts.map(product => (
+                <div className="product">
+                    <img className="image" src={product.imgPath} alt={product.name} />
+                    <p className="name">{product.name}</p>
+                    <p className="price">Price: ₹{product.price}</p>
+                    <p className="category">Category: {product.category}</p>
+                </div>
+            ))
+
+        );
     }
 }
-export default Cart;
+
+const mapStateToProps = (state) => {
+    return {
+        pdts: state.addedItems
+    }
+}
+
+export default connect(mapStateToProps)(Cart);
