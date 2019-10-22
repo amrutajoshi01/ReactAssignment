@@ -6,13 +6,12 @@ class Product extends Component {
         super(props);
     }
 
-    handleClick = () => {
-        this.props.addToCart();
+    handleClick = (event) => {
+        this.props.addToCart(event);
     }
 
     render() {
         const product = this.props.product;
-        console.log(this.props.addToCart);
         return (
             <div className="product">
                 <img className="image" src={product.imgPath} alt={product.name} />

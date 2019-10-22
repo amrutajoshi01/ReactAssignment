@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom'; 
+import { Link, withRouter } from 'react-router-dom';
+
 import './login.css';
 
 class Login extends Component {
@@ -12,12 +13,6 @@ class Login extends Component {
         };
     }
 
-    signout = () => {
-        this.setState({
-            isAuthenticated: true,
-        });
-    }
- 
     componentDidMount = () => {
         this.setState({
             username: '',
@@ -42,12 +37,13 @@ class Login extends Component {
 
         this.setState({ error: '' });
         if (this.state.username == "user" && this.state.password == 123) {
-            this.props.onAuthentication();
-            //console.log(this.props.history);
-            this.props.history.push('/Product');
             
             localStorage.setItem('username', this.state.username);
             localStorage.setItem('password', this.state.password);
+            localStorage.setItem('isAuthenticated', true);
+
+            this.props.onAuthentication();
+            this.props.history.push('/Product');
         }
 
         else {
@@ -84,6 +80,7 @@ class Login extends Component {
                             onChange={(event) => this.handleChange(event)} /><br />
 
                         <input type="submit" value="Login" />
+                        <div>Not a member?<br /><Link to="/signup">Sign Up</Link></div>
                     </form>
                 </div>
             </div>
