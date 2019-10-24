@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-} from 'react-router-dom'
-import { Provider } from 'react-redux'
+import { BrowserRouter as Router, Switch, Route, } from 'react-router-dom';
 import Login from '../Login/login.component';
 import ProductDisplay from '../ProductDisplay/productdisplay.component';
 import Profile from '../Profile/profile.component';
@@ -12,7 +7,6 @@ import App from "../App/App.component";
 import Navbar from '../Navbar/navbar.component';
 import Cart from "../Cart/cart.component"
 import SignUp from '../SignUp';
-
 import "./mainComponent.css"
 
 class MainComponent extends Component {
@@ -29,7 +23,6 @@ class MainComponent extends Component {
             isAuthenticated: false,
             cartCount: 0
         }
-
     }
 
     componentDidMount = () => {
@@ -44,24 +37,17 @@ class MainComponent extends Component {
         });
     }
 
-    displayCartCount = (cartCount) => {
-        this.setState({ cartCount: cartCount });
+    displayCartCount = () => {
+        return this.state.cartCount;
     }
-
-    incrementCartCount = () => {
-        this.setState({ cartCount: this.state.cartCount + 1 });
-    }
-
-
 
     render() {
         const { user } = this.state;
-
-        console.log('MainComponent: isAuthenticated: ' + this.state.isAuthenticated);
+        
         return (
             <div className="main" >
                 <Router>
-                    <Navbar isAuthenticated={this.state.isAuthenticated} onAuthentication={this.onAuthentication} cartCount={this.state.cartCount} />
+                    <Navbar isAuthenticated={this.state.isAuthenticated} onAuthentication={this.onAuthentication} displayCartCount={this.displayCartCount}/>
                     <Switch>
                         <Route exact path="/profile">
                             <Profile {...user} />
@@ -79,7 +65,7 @@ class MainComponent extends Component {
                             <SignUp />
                         </Route>
                         <Route exact path="/cart">
-                            <Cart displayCartCount={this.displayCartCount} ref={this.cartElement} />
+                            <Cart displayCartCount={this.displayCartCount}/>
                         </Route>
                     </Switch>
                 </Router >

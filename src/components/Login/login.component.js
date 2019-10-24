@@ -26,26 +26,20 @@ class Login extends Component {
 
     handleSubmit = (evt) => {
         evt.preventDefault();
-
         if (!this.state.username) {
             return this.setState({ error: 'Username is required' });
         }
-
         if (!this.state.password) {
             return this.setState({ error: 'Password is required' });
         }
-
         this.setState({ error: '' });
         if (this.state.username == "user" && this.state.password == 123) {
-            
-            localStorage.setItem('username', this.state.username);
-            localStorage.setItem('password', this.state.password);
-            localStorage.setItem('isAuthenticated', true);
 
+            localStorage.setItem('username', this.state.username);
+            localStorage.setItem('isAuthenticated', true);
             this.props.onAuthentication();
             this.props.history.push('/Product');
         }
-
         else {
             return this.setState({ error: 'Invalid Username or Password' });
             this.props.history.push('/login');
@@ -53,16 +47,15 @@ class Login extends Component {
     }
 
     handleChange = (evt) => {
-        console.log(evt.target.name);
         this.setState({
             [evt.target.name]: evt.target.value
         });
     }
+
     render() {
         return (
             <div>
                 <div className="Login">
-
                     <form onSubmit={this.handleSubmit}>
                         {
                             this.state.error &&
@@ -78,7 +71,6 @@ class Login extends Component {
                         <label>Password: </label>
                         <input type="password" name="password" value={this.state.password}
                             onChange={(event) => this.handleChange(event)} /><br />
-
                         <input type="submit" value="Login" />
                         <div>Not a member?<br /><Link to="/signup">Sign Up</Link></div>
                     </form>

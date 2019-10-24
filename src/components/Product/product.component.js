@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addToCart,getCartCount } from '../../actions/cartActions';
 import "./product.css";
 class Product extends Component {
     constructor(props) {
         super(props);
     }
 
-    handleClick = (event) => {
-        this.props.addToCart(event);
+    handleClick = (id) => {
+        if(this.props.isAuthenticated){
+            this.props.addToCart(id);
+            this.props.getCartCount();
+        }
+        else{
+            alert("Please Login to add to cart");
+            this.props.history.push('/login');
+        }
     }
 
     render() {
@@ -18,10 +27,17 @@ class Product extends Component {
                 <p className="name">{product.name}</p>
                 <p className="price">Price: ₹{product.price}</p>
                 <p className="category">Category: {product.category}</p>
-                <button className="add" onClick={this.handleClick}>Add To Cart <i className="fa fa-cart-plus"></i></button>
+                <button className="add" onClick={() => this.handleClick(product.id)}>Add To Cart <i className="fa fa-cart-plus"></i></button>
             </div>
         );
     }
 }
 
-export default withRouter(Product);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addToCart: (id) => { dispatch(addToCart(id)) },
+        getCartCount: () => { dispatch(getCartCount()) }
+    }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(Product));

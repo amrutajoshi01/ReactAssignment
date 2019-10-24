@@ -1,49 +1,56 @@
 import React, { Component } from 'react';
 import Product from '../Product/product.component';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-// import { addToCart } from '../../actions/cartActions';
+import { loadMoreItems } from '../../actions/cartActions';
+import "./productdisplay.css"
 class ProductDisplay extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            pdts:[]
-        }
+            pageSize: 8
+        };
     }
 
-    addToCart = (event) => {
-        if (this.props.isAuthenticated) {
-            console.log('add to cart' + event.target.value);
-            this.props.incrementCartCount();
-        }
-        else {
-            alert('please Login to add to cart');
-        }
+    componentWillMount = () =>{
+        this.props.loadMoreItems(this.state.pageSize);
+    }
+
+    loadMoreItems = () => {
+        this.props.loadMoreItems(this.state.pageSize);
     }
 
     render() {
+        let products = this.props.products;
+        products = products.slice(0, this.props.pageSize);
         return (
-            this.props.pdts.map(product => (
-                <Product
-                    key={product.id}
-                    product={product}
-                    addToCart={this.addToCart}
-                />
-            ))
+            <div className="displayProducts">
+                {products.map(product => (
+                    <Product
+                        key={product.id}
+                        product={product}
+                        isAuthenticated={this.props.isAuthenticated}
+                        incrementCartCount={this.props.incrementCartCount}
+                    />
+                ))}
+                <br/><button id="loadMoreBtn" onClick={this.loadMoreItems}>Load More</button>
+            </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        pdts: state.pdts
+        products: state.products,
+        pageSize: state.pageSize
     }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         addToCart: (id) => { dispatch(addToCart(id)) }
-//     }
-// }
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadMoreItems: (pageSize) => { dispatch(loadMoreItems(pageSize)) }
+    }
+}
 
-export default connect(mapStateToProps)(ProductDisplay);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductDisplay));

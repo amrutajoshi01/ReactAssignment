@@ -4,7 +4,7 @@ class Cart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cartCount: 0
+            cartCount: this.props.cartItems.length
         }
     }
 
@@ -12,28 +12,28 @@ class Cart extends Component {
         this.props.displayCartCount(this.state.cartCount);
     }
 
-    getCartCount = () => {
-        this.props.displayCartCount(this.state.cartCount);
-    }
-
     render() {
+        // console.log.
         return (
-            this.state.pdts.map(product => (
-                <div className="product">
+            (this.state.cartCount!==0) ?(this.props.cartItems.map(product => (
+                <div className="product" key={product.id}>
                     <img className="image" src={product.imgPath} alt={product.name} />
                     <p className="name">{product.name}</p>
                     <p className="price">Price: ₹{product.price}</p>
                     <p className="category">Category: {product.category}</p>
+                    <p className="quantity">Quantity: {product.quantity}</p>
                 </div>
-            ))
-
+            )))
+            :
+            (<p>Cart is empty</p>)
+            
         );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        pdts: state.addedItems
+        cartItems: state.cartItems
     }
 }
 
