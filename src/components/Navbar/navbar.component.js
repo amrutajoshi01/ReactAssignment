@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getCartCount } from '../../actions/cartActions';
 import DropDown from '../DropDown/dropDown.component';
 import './navbar.css';
 
 class Navbar extends Component {
     constructor(props) {
-        super(props);
-        
+        super(props); 
     }
 
     render() {
@@ -32,7 +30,6 @@ class Navbar extends Component {
         )
     }
 }
-
 
 const mapStateToProps = (state) => {
     return {

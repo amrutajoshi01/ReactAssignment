@@ -33,7 +33,7 @@ class Login extends Component {
             return this.setState({ error: 'Password is required' });
         }
         this.setState({ error: '' });
-        if (this.state.username == "user" && this.state.password == 123) {
+        if (this.state.username === "user" && this.state.password === '123') {
 
             localStorage.setItem('username', this.state.username);
             localStorage.setItem('isAuthenticated', true);
@@ -42,7 +42,6 @@ class Login extends Component {
         }
         else {
             return this.setState({ error: 'Invalid Username or Password' });
-            this.props.history.push('/login');
         }
     }
 

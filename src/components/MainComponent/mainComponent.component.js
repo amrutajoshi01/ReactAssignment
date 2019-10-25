@@ -59,7 +59,7 @@ class MainComponent extends Component {
                             <Login onAuthentication={this.onAuthentication} />
                         </Route>
                         <Route exact path="/product">
-                            <ProductDisplay isAuthenticated={this.state.isAuthenticated} incrementCartCount={this.incrementCartCount} />
+                            <ProductDisplay isAuthenticated={this.state.isAuthenticated} addToCart={this.props.addToCart} />
                         </Route>
                         <Route exact path="/signup">
                             <SignUp />

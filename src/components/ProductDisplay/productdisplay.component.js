@@ -2,39 +2,44 @@ import React, { Component } from 'react';
 import Product from '../Product/product.component';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { loadMoreItems } from '../../actions/cartActions';
+import { getProductsRequest } from '../../actions/productsActions';
+import ReactLoading from 'react-loading';
 import "./productdisplay.css"
 class ProductDisplay extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            pageSize: 8
+            page: 0,
+            limit: 4
         };
     }
 
-    componentWillMount = () =>{
-        this.props.loadMoreItems(this.state.pageSize);
+    componentDidMount = () => {
+        const { page, limit } = this.state;
+        this.props.getProducts({ page: page, limit: limit });
+        this.setState({page: this.state.page+1})
     }
 
-    loadMoreItems = () => {
-        this.props.loadMoreItems(this.state.pageSize);
+    loadMoreitems = (page, limit) => {
+        this.props.getProducts({ page: page, limit: limit });
+        this.setState({page: this.state.page+1})
     }
 
     render() {
-        let products = this.props.products;
-        products = products.slice(0, this.props.pageSize);
+        let { products, loading } = this.props;
+        const { page, limit } = this.state;
         return (
             <div className="displayProducts">
+                {loading && <ReactLoading type="spinningBubbles" color="lightskyblue" height={50} width={50} />}
                 {products.map(product => (
                     <Product
                         key={product.id}
                         product={product}
                         isAuthenticated={this.props.isAuthenticated}
-                        incrementCartCount={this.props.incrementCartCount}
                     />
                 ))}
-                <br/><button id="loadMoreBtn" onClick={this.loadMoreItems}>Load More</button>
+                <br /><button id="loadMoreBtn" onClick={() => this.loadMoreitems(page, limit)}>Load More</button>
             </div>
         );
     }
@@ -42,14 +47,14 @@ class ProductDisplay extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        products: state.products,
-        pageSize: state.pageSize
+        loading: state.cartReducer.loading,
+        products: state.cartReducer.products,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadMoreItems: (pageSize) => { dispatch(loadMoreItems(pageSize)) }
+        getProducts: (data) => { dispatch(getProductsRequest(data)) }
     }
 }
 

@@ -23,7 +23,7 @@ class SignUp extends Component {
     let name = target.name;
     let errors = {};
 
-    if (name == "password") {
+    if (name === "password") {
       if (value.length < 8) {
         errors["password"] = "Password must be at least 8 characters";
       }
@@ -31,8 +31,8 @@ class SignUp extends Component {
         errors["password"] = ''
     }
 
-    if (name == "confirm") {
-      if (this.state.password != value) {
+    if (name === "confirm") {
+      if (this.state.password !== value) {
         errors["confirm"] = "Password not matching";
 
       }
@@ -75,7 +75,7 @@ class SignUp extends Component {
     if (typeof this.state.email !== "undefined") {
       let lastAtPos = this.state.email.lastIndexOf('@');
       let lastDotPos = this.state.email.lastIndexOf('.');
-      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && this.state.email.indexOf('@@') == -1 && lastDotPos > 2 && (this.state.email.length - lastDotPos) > 2)) {
+      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && this.state.email.indexOf('@@') === -1 && lastDotPos > 2 && (this.state.email.length - lastDotPos) > 2)) {
         formIsValid = false;
         errors["email"] = "Email is not valid";
       }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addToCart,getCartCount } from '../../actions/cartActions';
+import { addToCartRequest,getCartCount } from '../../actions/cartActions';
 import "./product.css";
 class Product extends Component {
     constructor(props) {
@@ -14,7 +14,6 @@ class Product extends Component {
             this.props.getCartCount();
         }
         else{
-            alert("Please Login to add to cart");
             this.props.history.push('/login');
         }
     }
@@ -35,7 +34,7 @@ class Product extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addToCart: (id) => { dispatch(addToCart(id)) },
+        addToCart: (id) => { dispatch(addToCartRequest(id)) },
         getCartCount: () => { dispatch(getCartCount()) }
     }
 }

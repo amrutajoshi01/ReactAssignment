@@ -4,16 +4,15 @@ export const addToCart = (id) => {
         id
     }
 }
-
-export const loadMoreItems = (pageSize) => {
+export const addToCartRequest = (id) => {
     return {
-        type: "LOAD_MORE_ITEMS",
-        pageSize
+        type: "ADD_TO_CART_REQUEST",
+        payload: { id }
     }
 }
-
 export const getCartCount = () => {
     return {
         type: "GET_CART_COUNT",
     }
 }
+
