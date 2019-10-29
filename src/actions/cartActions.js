@@ -1,13 +1,13 @@
-export const addToCart = (id) => {
+export const addToCart = (product) => {
     return {
-        type: "ADD_TO_CART",
-        id
+        type: "ADD_TO_CART_SUCCESS",
+        product
     }
 }
-export const addToCartRequest = (id) => {
+export const addToCartRequest = (product) => {
     return {
         type: "ADD_TO_CART_REQUEST",
-        payload: { id }
+        payload: { product }
     }
 }
 export const getCartCount = () => {

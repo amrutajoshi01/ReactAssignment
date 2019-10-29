@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Product from '../Product/product.component';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getProductsRequest } from '../../actions/productsActions';
+import { getProductsRequest, loadMoreItemsRequest } from '../../actions/productsActions';
 import ReactLoading from 'react-loading';
 import "./productdisplay.css"
 class ProductDisplay extends Component {
@@ -11,19 +11,21 @@ class ProductDisplay extends Component {
         super(props)
         this.state = {
             page: 0,
-            limit: 4
+            limit: 12
         };
     }
 
     componentDidMount = () => {
         const { page, limit } = this.state;
-        this.props.getProducts({ page: page, limit: limit });
-        this.setState({page: this.state.page+1})
+        const { products } = this.props;
+        if (products.length === 0)
+            this.props.getProducts({ page: page, limit: limit });
     }
 
     loadMoreitems = (page, limit) => {
-        this.props.getProducts({ page: page, limit: limit });
-        this.setState({page: this.state.page+1})
+        this.setState({ page: this.state.page + 1 })
+        this.props.loadMoreItems({ page: page, limit: limit });
+
     }
 
     render() {
@@ -31,7 +33,7 @@ class ProductDisplay extends Component {
         const { page, limit } = this.state;
         return (
             <div className="displayProducts">
-                {loading && <ReactLoading type="spinningBubbles" color="lightskyblue" height={50} width={50} />}
+                {loading && page === 0 && <div className="loader"><ReactLoading type="spinningBubbles" color="rgb(49, 157, 219)" /></div>}
                 {products.map(product => (
                     <Product
                         key={product.id}
@@ -39,6 +41,7 @@ class ProductDisplay extends Component {
                         isAuthenticated={this.props.isAuthenticated}
                     />
                 ))}
+                {loading && page > 0 && <div className="loader"><ReactLoading type="spinningBubbles" color="rgb(49, 157, 219)" /></div>}
                 <br /><button id="loadMoreBtn" onClick={() => this.loadMoreitems(page, limit)}>Load More</button>
             </div>
         );
@@ -47,14 +50,15 @@ class ProductDisplay extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        loading: state.cartReducer.loading,
-        products: state.cartReducer.products,
+        loading: state.productsReducer.loading,
+        products: state.productsReducer.products,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getProducts: (data) => { dispatch(getProductsRequest(data)) }
+        getProducts: (data) => { dispatch(getProductsRequest(data)) },
+        loadMoreItems: (data) => { dispatch(loadMoreItemsRequest(data)) }
     }
 }
 

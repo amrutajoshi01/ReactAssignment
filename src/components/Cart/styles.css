@@ -4,3 +4,15 @@
     padding: 5px;
     border-radius: 5px;
 }
+
+.alert{
+    text-align: left;
+    border-radius: 2px;
+    margin:2%;
+    padding: 5px;
+    background-color: white;
+}
+
+.dismissAlert{
+    float: right;
+}

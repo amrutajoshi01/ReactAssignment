@@ -38,7 +38,7 @@ class Login extends Component {
             localStorage.setItem('username', this.state.username);
             localStorage.setItem('isAuthenticated', true);
             this.props.onAuthentication();
-            this.props.history.push('/Product');
+            this.props.history.push('/product');
         }
         else {
             return this.setState({ error: 'Invalid Username or Password' });
