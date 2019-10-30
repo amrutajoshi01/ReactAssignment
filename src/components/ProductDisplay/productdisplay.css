@@ -10,12 +10,19 @@
 }
 
 .displayProducts{
-    margin-top: 30px;
+    margin-top: 7%;
     font-size: 20px;
-    text-align: justify;
 }
 
-.loader{
+.topLoader{
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    top: 50%;
+    left: 50%
+}
+
+.bottomLoader{
     width: fit-content;
     height: fit-content;
     margin: auto;

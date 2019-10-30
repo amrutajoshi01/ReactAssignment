@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addToCartRequest, getCartCount } from '../../actions/cartActions';
-import ReactLoading from 'react-loading';
+// import ReactLoading from 'react-loading';
 import "./product.css";
 class Product extends Component {
     constructor(props) {
         super(props);
     }
 
-    handleClick = (id) => {
+    handleClick = (id, event) => {
+        event.target.innerText = "Added To Cart"
+        event.target.disabled = true;
         const { isAuthenticated, products } = this.props
         if (isAuthenticated) {
             this.props.addToCart(products.find(product => product.id === id));
@@ -20,16 +22,24 @@ class Product extends Component {
         }
     }
 
+    getQuantity = () => {
+        const { cartItems } = this.props;
+        let quantity = 0;
+      
+    }
+
     render() {
-        const { product, loading } = this.props;
+        const { product } = this.props;
         return (
             <div className="product">
                 <img className="image" src={product.imgPath} alt={product.name} />
                 <p className="name">{product.name}</p>
                 <p className="price">Price: ₹{product.price}</p>
                 <p className="category">Category: {product.category}</p>
-                <button className="add" onClick={() => this.handleClick(product.id)}>Add To Cart <i className="fa fa-cart-plus"></i>
-                    {loading && <ReactLoading type="spinningBubbles" width="10px" height="10px" color="black" />}</button>
+                <button className="add" onClick={(event) => this.handleClick(product.id, event)}>Add To Cart <i className="fa fa-cart-plus"></i></button><br />
+                {/* <button className="plus">+</button>
+                {() => this.getQuantity(product.id)}
+                <button className="minus">-</button> */}
             </div>
         );
     }
@@ -37,7 +47,8 @@ class Product extends Component {
 const mapStateToProps = (state) => {
     return {
         products: state.productsReducer.products,
-        loading: state.cartReducer.loading
+        loading: state.cartReducer.loading,
+        cartItems: state.cartReducer.cartItems
     }
 }
 const mapDispatchToProps = (dispatch) => {

@@ -43,11 +43,24 @@ const cartReducer = (state = initState, action) => {
                 ...state,
                 loading: false,
             }
+        case "CHECKOUT_REQUEST":
+            return {
+                ...state,
+                loading: false,
+            }
+
+        case "CHECKOUT_SUCCESS":
+            return {
+                ...state,
+                cartItems: [],
+                cartCount: state.cartItems.length,
+            }
 
         case 'GET_CART_COUNT':
             return {
                 ...state,
                 cartCount: state.cartItems.length,
+
             }
         default: return state;
     }
