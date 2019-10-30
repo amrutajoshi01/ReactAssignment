@@ -1,6 +1,7 @@
 const initState = {
     products: [],
-    loading: false
+    loading: false,
+    moreProducts: true
 }
 
 const productsReducer = (state = initState, action) => {
@@ -38,10 +39,15 @@ const productsReducer = (state = initState, action) => {
                 loading: true
             }
         case "LOAD_MORE_ITEMS_SUCCESS":
+            let moreProducts = true;
+            if (action.products.length === 0)
+                moreProducts = false;
+
             return {
                 ...state,
                 loading: false,
-                products: state.products.concat(action.products)
+                products: state.products.concat(action.products),
+                moreProducts: moreProducts
             }
         case "LOAD_MORE_ITEMS_FAILURE":
             return {

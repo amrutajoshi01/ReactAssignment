@@ -41,7 +41,7 @@ class Login extends Component {
             this.props.history.push('/product');
         }
         else {
-            return this.setState({ error: 'Invalid Username or Password' });
+            return this.setState({ error: 'Invalid Username/Password' });
         }
     }
 

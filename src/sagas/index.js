@@ -18,17 +18,25 @@ export function* watchAddToCart() {
 
 export function* getProducts(request) {
     const { page, limit } = request.data;
-    yield put({ type: 'GET_PRODUCTS_LOADING' })
+    yield put({ type: 'GET_PRODUCTS_LOADING' });
     try {
         const response = yield call(fetch, 'http://localhost:3001/products?limit=' + limit + '&page=' + page);
         const responseBody = yield response.json();
-        yield put({ type: 'GET_PRODUCTS_SUCCESS', products: responseBody })
+        yield put({ type: 'GET_PRODUCTS_SUCCESS', products: responseBody });
     }
     catch (error) {
         console.log(error);
-        yield put({ type: 'GET_PRODUCTS_FAILURE' })
+        yield put({ type: 'GET_PRODUCTS_FAILURE' });
     }
 
+}
+
+export function* checkOut() {
+    yield put({ type: 'CHECKOUT_SUCCESS' });
+}
+
+export function* watchCheckOut() {
+    yield takeEvery('CHECKOUT_REQUEST', checkOut)
 }
 
 export function* watchGetProducts() {
