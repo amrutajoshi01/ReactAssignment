@@ -1,41 +1,65 @@
 import React, { Component } from 'react';
-import data from '../data'
-import Product from '../Product/product.component'
-
+import Product from '../Product/product.component';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getProductsRequest, loadMoreItemsRequest } from '../../actions/productsActions';
+import ReactLoading from 'react-loading';
+import "./productdisplay.css"
 class ProductDisplay extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            pdts: data,
-        }
+            page: 0,
+            limit: 12
+        };
     }
 
-    addToCart = (event) => {
-        if(this.props.isAuthenticated){
-            console.log('add to cart' + event.target.value);
-            this.props.incrementCartCount();
-        }
-        else{
-            alert('please Login to add to cart');
-        }
+    componentDidMount = () => {
+        const { page, limit } = this.state;
+        const { products } = this.props;
+        if (products.length === 0)
+            this.props.getProducts({ page: page, limit: limit });
+    }
+
+    loadMoreitems = (page, limit) => {
+        this.setState({ page: this.state.page + 1 })
+        this.props.loadMoreItems({ page: page, limit: limit });
+
     }
 
     render() {
+        let { products, loading } = this.props;
+        const { page, limit } = this.state;
         return (
-            // <div>
-            //     {
-            this.state.pdts.map(product => (
-                <Product
-                    key={product.id}
-                    product={product}
-                    addToCart={this.addToCart}
-                />
-            ))
-            //     }
-            // </div>
+            <div className="displayProducts">
+                {loading && page === 0 && <div className="loader"><ReactLoading type="spinningBubbles" color="rgb(49, 157, 219)" /></div>}
+                {products.map(product => (
+                    <Product
+                        key={product.id}
+                        product={product}
+                        isAuthenticated={this.props.isAuthenticated}
+                    />
+                ))}
+                {loading && page > 0 && <div className="loader"><ReactLoading type="spinningBubbles" color="rgb(49, 157, 219)" /></div>}
+                <br /><button id="loadMoreBtn" onClick={() => this.loadMoreitems(page, limit)}>Load More</button>
+            </div>
         );
     }
 }
 
-export default ProductDisplay;
+const mapStateToProps = (state) => {
+    return {
+        loading: state.productsReducer.loading,
+        products: state.productsReducer.products,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getProducts: (data) => { dispatch(getProductsRequest(data)) },
+        loadMoreItems: (data) => { dispatch(loadMoreItemsRequest(data)) }
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductDisplay));

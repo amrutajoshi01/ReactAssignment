@@ -10,7 +10,7 @@ class SignUp extends Component {
     this.state = {
       name: '',
       password: '',
-      confirm:'',
+      confirm: '',
       email: '',
       hasAgreed: false,
       errors: {}
@@ -23,7 +23,7 @@ class SignUp extends Component {
     let name = target.name;
     let errors = {};
 
-    if (name == "password") {
+    if (name === "password") {
       if (value.length < 8) {
         errors["password"] = "Password must be at least 8 characters";
       }
@@ -31,14 +31,13 @@ class SignUp extends Component {
         errors["password"] = ''
     }
 
-    if (name == "confirm") {
-      if (this.state.password != value) {
+    if (name === "confirm") {
+      if (this.state.password !== value) {
         errors["confirm"] = "Password not matching";
 
       }
       else
         errors["confirm"] = ''
-
     }
 
     this.setState({
@@ -76,8 +75,7 @@ class SignUp extends Component {
     if (typeof this.state.email !== "undefined") {
       let lastAtPos = this.state.email.lastIndexOf('@');
       let lastDotPos = this.state.email.lastIndexOf('.');
-
-      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && this.state.email.indexOf('@@') == -1 && lastDotPos > 2 && (this.state.email.length - lastDotPos) > 2)) {
+      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && this.state.email.indexOf('@@') === -1 && lastDotPos > 2 && (this.state.email.length - lastDotPos) > 2)) {
         formIsValid = false;
         errors["email"] = "Email is not valid";
       }
@@ -89,7 +87,6 @@ class SignUp extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
     if (this.handleValidation()) {
       this.setState({
         email: '',
@@ -98,13 +95,11 @@ class SignUp extends Component {
         name: '',
         hasAgreed: false,
       });
-
       this.props.history.push('/login');
     }
   }
 
   render() {
-    
     return (
       <div id="signup">
         <form onSubmit={this.handleSubmit} className="FormFields">
@@ -137,7 +132,6 @@ class SignUp extends Component {
 
           <div className="FormField">
             <button className="FormField__Button mr-20" disabled={this.state.handleValidation}>Sign Up</button>
-            {/*<Link to="/sign-in" className="FormField__Link">I'm already member</Link>*/}
           </div>
         </form>
       </div>
