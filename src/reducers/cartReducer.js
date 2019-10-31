@@ -1,7 +1,7 @@
 const initState = {
     loading: false,
     cartItems: [],
-    cartCount: 0
+    cartCount: 0,
 }
 
 
@@ -48,14 +48,22 @@ const cartReducer = (state = initState, action) => {
                 ...state,
                 loading: false,
             }
-
+        case "CHECKOUT_PENDING":
+            let totalAmount = 0
+            action.cartItems.map(product => (
+                totalAmount += product.quantity * product.price
+            ));
+            return {
+                ...state,
+                order: { items: action.cartItems, totalAmount: totalAmount }
+            }
         case "CHECKOUT_SUCCESS":
             return {
                 ...state,
                 cartItems: [],
-                cartCount: state.cartItems.length,
+                cartCount: 0,
+                loading: false,
             }
-
         case 'GET_CART_COUNT':
             return {
                 ...state,

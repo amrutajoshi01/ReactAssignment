@@ -35,6 +35,7 @@ class DropDown extends Component {
                 {this.state.displayDropDown ? (
                     <div className="dropdownMenu">
                         <Link to="/profile">Profile</Link>
+                        <Link to="/orders">Orders</Link>
                         <a href="/login" onClick={this.handleLogout}>Logout</a>
                     </div>
                 ) :

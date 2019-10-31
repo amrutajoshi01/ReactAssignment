@@ -7,23 +7,31 @@ class Cart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cartCount: this.props.cartItems.length,
             checkOut: false,
             showAlert: false
         }
     }
 
     componentDidMount = () => {
-        this.props.displayCartCount(this.state.cartCount);
+        this.props.displayCartCount(this.props.cartItems.length);
     }
 
     handleCheckout = () => {
-        this.props.checkOut();
+        const { cartItems } = this.props;
+        let totalAmount = 0;
+        cartItems.map(product => (
+            totalAmount += product.quantity * product.price
+        ));
+        let order = {
+            items: cartItems,
+            totalAmount: totalAmount
+        }
+
+        this.props.checkOut({ cartItems, order });
         this.setState({
             checkOut: true,
             showAlert: true,
         })
-        this.props.checkOut();
     }
 
     dissmissAlert = () => {
@@ -38,14 +46,13 @@ class Cart extends Component {
         cartItems.map(product => (
             total += product.quantity * product.price
         ));
-
         return total;
     }
 
     render() {
         const { cartItems } = this.props;
-        const { cartCount, checkOut, showAlert } = this.state;
-
+        const { checkOut, showAlert } = this.state;
+        let cartCount = cartItems.length;
         return (
             <div className="cartItems">
                 {
@@ -63,7 +70,7 @@ class Cart extends Component {
                             </div>
                             <div className="checkOutDetails">
                                 {cartItems.map(product => (
-                                    <div className="checkOutItem">
+                                    <div className="checkOutItem" key={product.id} >
                                         <p className="checkOutName">{product.name}</p>
                                         <p className="checkOutQuantity">Quantity: {product.quantity}</p>
                                         <p className="checkOutAmount">Amount: ₹{product.quantity * product.price}</p>
@@ -83,7 +90,6 @@ class Cart extends Component {
                         <p>
                             We will get back to you with your order details on your mail.
                             <button classnname="dismissAlert" onClick={this.dissmissAlert}>X</button>
-
                         </p>
                     </Alert>
                 }
@@ -96,13 +102,13 @@ class Cart extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        cartItems: state.cartReducer.cartItems
+        cartItems: state.cartReducer.cartItems,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        checkOut: () => { dispatch(checkOutRequest()) }
+        checkOut: (data) => { dispatch(checkOutRequest(data)) }
     }
 }
 

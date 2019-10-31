@@ -3,13 +3,13 @@ import { put, takeEvery, all, call } from 'redux-saga/effects'
 export function* addToCart(action) {
     const { product } = action.payload;
     yield put({ type: 'ADD_TO_CART_LOADING' })
-    try{
+    try {
         yield put({ type: 'ADD_TO_CART_SUCCESS', product })
     }
-    catch(error){
+    catch (error) {
         yield put({ type: 'ADD_TO_CART_FAILURE', product })
     }
-    
+
 }
 
 export function* watchAddToCart() {
@@ -25,14 +25,30 @@ export function* getProducts(request) {
         yield put({ type: 'GET_PRODUCTS_SUCCESS', products: responseBody });
     }
     catch (error) {
-        console.log(error);
         yield put({ type: 'GET_PRODUCTS_FAILURE' });
     }
 
 }
 
-export function* checkOut() {
-    yield put({ type: 'CHECKOUT_SUCCESS' });
+export function* checkOut(request) {
+
+    const { cartItems, order } = request.data;
+    try {
+        yield put({ type: 'CHECKOUT_PENDING', cartItems: cartItems });
+
+        const response = yield call(fetch, 'http://localhost:3001/checkout', {
+            method: 'POST',
+            body: JSON.stringify(order),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'text/html'
+            }
+        });
+        yield put({ type: 'CHECKOUT_SUCCESS' });
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
 
 export function* watchCheckOut() {
@@ -67,6 +83,7 @@ export default function* rootSaga() {
     yield all([
         watchAddToCart(),
         watchGetProducts(),
-        watchLoadMoreItems()
+        watchLoadMoreItems(),
+        watchCheckOut()
     ])
 }

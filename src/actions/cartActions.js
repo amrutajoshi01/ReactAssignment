@@ -11,15 +11,21 @@ export const addToCart = (product) => {
     }
 }
 
-export const checkOutRequest = () => {
+export const checkOutRequest = (data) => {
     return {
         type: "CHECKOUT_REQUEST",
+        data
     }
 }
-
+export const checkOutPending = (cartItems) => {
+    return {
+        type: "CHECKOUT_PENDING",
+        cartItems
+    }
+}
 export const checkOutSuccess = () => {
     return {
-        type: "CHECKOUT_SUCCESS",
+        type: "CHECKOUT_SUCCESS"
     }
 }
 

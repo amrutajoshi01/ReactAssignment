@@ -7,6 +7,7 @@ import App from "../App/App.component";
 import Navbar from '../Navbar/navbar.component';
 import Cart from "../Cart/cart.component"
 import SignUp from '../SignUp';
+import Orders from '../Orders';
 import "./mainComponent.css"
 
 class MainComponent extends Component {
@@ -43,11 +44,11 @@ class MainComponent extends Component {
 
     render() {
         const { user } = this.state;
-        
+
         return (
             <div className="main" >
                 <Router>
-                    <Navbar isAuthenticated={this.state.isAuthenticated} onAuthentication={this.onAuthentication} displayCartCount={this.displayCartCount}/>
+                    <Navbar isAuthenticated={this.state.isAuthenticated} onAuthentication={this.onAuthentication} displayCartCount={this.displayCartCount} />
                     <Switch>
                         <Route exact path="/profile">
                             <Profile {...user} />
@@ -65,7 +66,10 @@ class MainComponent extends Component {
                             <SignUp />
                         </Route>
                         <Route exact path="/cart">
-                            <Cart displayCartCount={this.displayCartCount}/>
+                            <Cart displayCartCount={this.displayCartCount} />
+                        </Route>
+                        <Route exact path="/orders">
+                            <Orders />
                         </Route>
                     </Switch>
                 </Router >
