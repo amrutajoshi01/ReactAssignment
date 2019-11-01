@@ -50,3 +50,9 @@
     font-size: 16px;
     color: red;
 }
+
+.checkOutLoader{
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+}

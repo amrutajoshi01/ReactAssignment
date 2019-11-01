@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Alert } from 'reactstrap';
+import ReactLoading from 'react-loading';
 import { checkOutRequest } from '../../actions/cartActions';
 import "./styles.css";
 class Cart extends Component {
@@ -17,21 +18,23 @@ class Cart extends Component {
     }
 
     handleCheckout = () => {
-        const { cartItems } = this.props;
+        const { cartItems, loading } = this.props;
         let totalAmount = 0;
-        cartItems.map(product => (
+        for (var product of cartItems) {
             totalAmount += product.quantity * product.price
-        ));
+        }
+
         let order = {
+            orderedOn: new Date().toLocaleDateString(),
             items: cartItems,
             totalAmount: totalAmount
         }
-
         this.props.checkOut({ cartItems, order });
-        this.setState({
-            checkOut: true,
-            showAlert: true,
-        })
+        if (!loading)
+            this.setState({
+                checkOut: true,
+                showAlert: true,
+            });
     }
 
     dissmissAlert = () => {
@@ -50,7 +53,7 @@ class Cart extends Component {
     }
 
     render() {
-        const { cartItems } = this.props;
+        const { cartItems, loading } = this.props;
         const { checkOut, showAlert } = this.state;
         let cartCount = cartItems.length;
         return (
@@ -77,7 +80,9 @@ class Cart extends Component {
                                     </div>
                                 ))}
                                 <span><p className="totalAmount">Total Amount: ₹{this.calculateTotalAmount()}</p>
-                                    <button className="checkout" onClick={this.handleCheckout}>Checkout</button></span>
+                                    <button className="checkout" onClick={this.handleCheckout}>Checkout</button>
+                                    {loading && <div className="checkOutLoader"><ReactLoading type="spinningBubbles" height="30px" width="30px" color="black" /></div>}
+                                </span>
                             </div>
                         </div>
                     )
@@ -103,6 +108,7 @@ class Cart extends Component {
 const mapStateToProps = (state) => {
     return {
         cartItems: state.cartReducer.cartItems,
+        loading: state.cartReducer.loading
     }
 }
 

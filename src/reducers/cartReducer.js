@@ -4,7 +4,6 @@ const initState = {
     cartCount: 0,
 }
 
-
 const cartReducer = (state = initState, action) => {
     switch (action.type) {
         case "ADD_TO_CART_REQUEST":
@@ -48,20 +47,22 @@ const cartReducer = (state = initState, action) => {
                 ...state,
                 loading: false,
             }
-        case "CHECKOUT_PENDING":
-            let totalAmount = 0
-            action.cartItems.map(product => (
-                totalAmount += product.quantity * product.price
-            ));
+        case "CHECKOUT_LOADING":
+
             return {
                 ...state,
-                order: { items: action.cartItems, totalAmount: totalAmount }
+                loading: true,
             }
         case "CHECKOUT_SUCCESS":
             return {
                 ...state,
                 cartItems: [],
                 cartCount: 0,
+                loading: false,
+            }
+        case "CHECKOUT_FAILURE":
+            return {
+                ...state,
                 loading: false,
             }
         case 'GET_CART_COUNT':

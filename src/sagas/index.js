@@ -30,11 +30,16 @@ export function* getProducts(request) {
 
 }
 
+export function* watchGetProducts() {
+
+    yield takeEvery('GET_PRODUCTS_REQUEST', getProducts)
+}
+
 export function* checkOut(request) {
 
-    const { cartItems, order } = request.data;
+    const { order } = request.data;
     try {
-        yield put({ type: 'CHECKOUT_PENDING', cartItems: cartItems });
+        yield put({ type: 'CHECKOUT_LOADING' });
 
         const response = yield call(fetch, 'http://localhost:3001/checkout', {
             method: 'POST',
@@ -55,10 +60,6 @@ export function* watchCheckOut() {
     yield takeEvery('CHECKOUT_REQUEST', checkOut)
 }
 
-export function* watchGetProducts() {
-
-    yield takeEvery('GET_PRODUCTS_REQUEST', getProducts)
-}
 
 export function* loadMoreItems(request) {
     const { page, limit } = request.data;
@@ -71,7 +72,6 @@ export function* loadMoreItems(request) {
     catch (error) {
         yield put({ type: 'LOAD_MORE_ITEMS_FAILURE' })
     }
-
 }
 
 export function* watchLoadMoreItems() {
@@ -79,11 +79,30 @@ export function* watchLoadMoreItems() {
     yield takeEvery('LOAD_MORE_ITEMS_REQUEST', loadMoreItems)
 }
 
+export function* getOrders() {
+    yield put({ type: 'GET_ORDERS_LOADING' });
+    try {
+        const response = yield call(fetch, 'http://localhost:3001/orders');
+        const responseBody = yield response.json();
+        yield put({ type: 'GET_ORDERS_SUCCESS', orders: responseBody });
+    }
+    catch (error) {
+        yield put({ type: 'GET_ORDERS_FAILURE' });
+    }
+
+}
+
+export function* watchGetOrders() {
+
+    yield takeEvery('GET_ORDERS_REQUEST', getOrders)
+}
+
 export default function* rootSaga() {
     yield all([
         watchAddToCart(),
         watchGetProducts(),
         watchLoadMoreItems(),
-        watchCheckOut()
+        watchCheckOut(),
+        watchGetOrders()
     ])
 }

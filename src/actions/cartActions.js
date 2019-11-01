@@ -17,15 +17,19 @@ export const checkOutRequest = (data) => {
         data
     }
 }
-export const checkOutPending = (cartItems) => {
+export const checkOutPending = () => {
     return {
-        type: "CHECKOUT_PENDING",
-        cartItems
+        type: "CHECKOUT_LOADING",
     }
 }
 export const checkOutSuccess = () => {
     return {
         type: "CHECKOUT_SUCCESS"
+    }
+}
+export const checkOutFailure = () => {
+    return {
+        type: "CHECKOUT_FAILURE"
     }
 }
 

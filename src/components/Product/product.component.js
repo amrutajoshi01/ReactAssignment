@@ -21,13 +21,7 @@ class Product extends Component {
             this.props.history.push('/login');
         }
     }
-
-    getQuantity = () => {
-        const { cartItems } = this.props;
-        let quantity = 0;
-      
-    }
-
+    
     render() {
         const { product } = this.props;
         return (

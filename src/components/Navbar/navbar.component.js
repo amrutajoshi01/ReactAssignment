@@ -15,8 +15,8 @@ class Navbar extends Component {
             <nav className="nav-wrapper">
                 <div className="container">
                     <ul className="left">
-                        <li><Link to="/product"><img className="logo" src="../images/app-logo.jpg" /></Link></li>
-                        {/* <li><input type="text" placeholder="Search" /> </li> */}
+                        <li><Link to="/product"><img className="logo" src="../images/app-logo.jpg" alt="Shopping App"/></Link></li>
+                        <li><input type="text" placeholder="Search" /> </li>
                     </ul>
                     <ul className="toggle">
                         {!isAuthenticated && <li ><Link to="/login">Login</Link></li>}

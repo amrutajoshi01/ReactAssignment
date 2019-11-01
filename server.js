@@ -29,6 +29,12 @@ app.get('/products', (req, res) => {
     //res.status(500).send("Something went wrong");
 });
 
+app.get('/search', (req, res) => {
+    let searchResults = [];
+    for (product of productsMockData);
+
+});
+
 app.get('/orders', (req, res) => {
     setTimeout(() => {
         res.json(orders);
@@ -39,16 +45,18 @@ app.post('/checkout', (req, res) => {
     let order = req.body
     fs.readFile('./src/orders.json', 'utf8', function readFileCallback(err, data) {
         if (err) {
-            console.log(err);
+            res.status(500).send("Something went wrong");
         }
         else {
             obj = JSON.parse(data);
             obj.push(order);
             json = JSON.stringify(obj);
             fs.writeFile('./src/orders.json', json, 'utf8', function (err) {
-                if (err) throw err;
+                if (err)
+                    res.status(500).send("Something went wrong");
+                res.send();
             });
-            res.send();
+
         }
     });
 
