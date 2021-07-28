@@ -71,6 +71,23 @@ const cartReducer = (state = initState, action) => {
                 cartCount: state.cartItems.length,
 
             }
+        case 'CHANGE_QUANTITY':
+            const type = action.payload.type;
+            const name = action.payload.name;
+            const itemIndex = state.cartItems.findIndex(item => item.name === name);
+            switch(type) {
+                case '+': state.cartItems[itemIndex].quantity++;
+                        break;
+                case '-': state.cartItems[itemIndex].quantity--;
+                        break;
+            }
+            if(state.cartItems[itemIndex].quantity < 1) {
+                state.cartItems.splice(itemIndex , 1)
+            }
+            return {
+                ...state,
+                cartCount: state.cartItems.length
+            }
         default: return state;
     }
 }

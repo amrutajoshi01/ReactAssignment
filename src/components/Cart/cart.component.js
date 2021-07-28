@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Alert } from 'reactstrap';
 import ReactLoading from 'react-loading';
-import { checkOutRequest } from '../../actions/cartActions';
+import { checkOutRequest, changeQuantity } from '../../actions/cartActions';
 import "./styles.css";
 class Cart extends Component {
     constructor(props) {
@@ -43,6 +43,11 @@ class Cart extends Component {
         })
     }
 
+    changeQuantity = (event, name) => {
+        this.props.changeQuantity({type: event.target.name, name});
+        this.forceUpdate();
+    }
+
     calculateTotalAmount = () => {
         const { cartItems } = this.props;
         let total = 0;
@@ -68,7 +73,9 @@ class Cart extends Component {
                                         <p className="name">{product.name}</p>
                                         <p className="price">Price: ₹{product.price}</p>
                                         <p className="category">Category: {product.category}</p>
-                                        <p className="quantity">Quantity: {product.quantity}</p>
+                                        <button name="+" onClick={(event) => this.changeQuantity(event, product.name)}>+</button>
+                                        <span className="quantity"> {product.quantity} </span>
+                                        <button name="-" onClick={(event) => this.changeQuantity(event, product.name)}>-</button>
                                     </div>))}
                             </div>
                             <div className="checkOutDetails">
@@ -114,7 +121,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        checkOut: (data) => { dispatch(checkOutRequest(data)) }
+        checkOut: (data) => { dispatch(checkOutRequest(data)) },
+        changeQuantity: (payload) => { dispatch(changeQuantity(payload)) }
     }
 }
 

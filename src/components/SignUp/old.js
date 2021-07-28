@@ -18,7 +18,6 @@ const SignUp = (props) => {
         setUserInfo({...userInfo,
             [event.target.name]: event.target.value
         })
-        console.log(event.target.name);
     }
 
     function validateForm(){

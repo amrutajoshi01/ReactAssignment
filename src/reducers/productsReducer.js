@@ -1,7 +1,10 @@
 const initState = {
     products: [],
     loading: false,
-    moreProducts: true
+    moreProducts: true,
+    searchText: '',
+    page: 0,
+    limit: 0
 }
 
 const productsReducer = (state = initState, action) => {
@@ -9,7 +12,11 @@ const productsReducer = (state = initState, action) => {
         case "GET_PRODUCTS_REQUEST":
             return {
                 ...state,
-                loading: false
+                loading: false,
+                moreProducts: true,
+                page: action.data.page,
+                limit: action.data.limit,
+                searchText: action.data.searchText
             }
         case "GET_PRODUCTS_LOADING":
             return {
@@ -29,9 +36,13 @@ const productsReducer = (state = initState, action) => {
             }
 
         case "LOAD_MORE_ITEMS_REQUEST":
+            const flag = state.searchText==='' && action.data.searchText !==''
             return {
                 ...state,
-                loading: false
+                loading: false,
+                page: flag ? 0 : action.data.page,
+                limit: action.data.limit,
+                searchText: action.data.searchText
             }
         case "LOAD_MORE_ITEMS_LOADING":
             return {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Login from '../Login/login.component';
 import ProductDisplay from '../ProductDisplay/productdisplay.component';
 import Profile from '../Profile/profile.component';
@@ -8,6 +8,7 @@ import Navbar from '../Navbar/navbar.component';
 import Cart from "../Cart/cart.component"
 import SignUp from '../SignUp';
 import Orders from '../Orders';
+import Categories from '../Categories/categories.component';
 import "./mainComponent.css"
 
 class MainComponent extends Component {
@@ -54,7 +55,7 @@ class MainComponent extends Component {
                             <Profile {...user} />
                         </Route>
                         <Route exact path="/">
-                            <App />
+                            <Redirect to="/product" />
                         </Route>
                         <Route exact path="/login">
                             <Login onAuthentication={this.onAuthentication} />
@@ -70,6 +71,9 @@ class MainComponent extends Component {
                         </Route>
                         <Route exact path="/orders">
                             <Orders />
+                        </Route>
+                        <Route exact path="/categories">
+                            <Categories/>
                         </Route>
                     </Switch>
                 </Router >

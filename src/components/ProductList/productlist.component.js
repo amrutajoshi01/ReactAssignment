@@ -7,7 +7,6 @@ class ProductList extends Component {
     }
 
     render() {
-        console.log(this.props.addToCart);
         return (
             <div>
                 {

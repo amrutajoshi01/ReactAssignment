@@ -6,7 +6,6 @@ import "./styles.css";
 class SignUp extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       name: '',
       password: '',
@@ -111,7 +110,6 @@ class SignUp extends Component {
 
   render() {
     let { name, password, confirm, email, hasAgreed, errors } = this.state;
-    console.log(hasAgreed);
     return (
       <div id="signup">
         <form onSubmit={this.handleSubmit} className="FormFields">

@@ -39,3 +39,10 @@ export const getCartCount = () => {
     }
 }
 
+export const changeQuantity = (payload) => {
+    return {
+        type: "CHANGE_QUANTITY",
+        payload
+    }
+}
+

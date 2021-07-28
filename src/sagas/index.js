@@ -17,10 +17,10 @@ export function* watchAddToCart() {
 }
 
 export function* getProducts(request) {
-    const { page, limit } = request.data;
+    const { page, limit, searchText } = request.data;
     yield put({ type: 'GET_PRODUCTS_LOADING' });
     try {
-        const response = yield call(fetch, 'http://localhost:3001/products?limit=' + limit + '&page=' + page);
+        const response = yield call(fetch, 'http://localhost:3001/products?limit=' + limit + '&page=' + page + '&searchText=' + searchText);
         const responseBody = yield response.json();
         yield put({ type: 'GET_PRODUCTS_SUCCESS', products: responseBody });
     }
@@ -62,10 +62,10 @@ export function* watchCheckOut() {
 
 
 export function* loadMoreItems(request) {
-    const { page, limit } = request.data;
+    const { page, limit, searchText } = request.data;
     yield put({ type: 'LOAD_MORE_ITEMS_LOADING' });
     try {
-        const response = yield call(fetch, 'http://localhost:3001/products?limit=' + limit + '&page=' + page);
+        const response = yield call(fetch, 'http://localhost:3001/products?limit=' + limit + '&page=' + page + '&searchText=' + searchText);
         const responseBody = yield response.json();
         yield put({ type: 'LOAD_MORE_ITEMS_SUCCESS', products: responseBody })
     }

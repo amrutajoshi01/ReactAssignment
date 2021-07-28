@@ -18,8 +18,12 @@ app.get('/', (req, res) => {
 app.get('/products', (req, res) => {
     const limit = req.query.limit;
     const page = req.query.page;
+    const searchText = req.query.searchText;
     const offset = page > 0 ? (page * limit) : 0;
     let products = Object.assign([], productsMockData);
+    if(searchText !== '') {
+        products = products.filter(x => x.name.includes(searchText));
+    }
     let pagingatedData = products.splice(offset, limit);
     // res.json(pagingatedData);
     setTimeout(() => {

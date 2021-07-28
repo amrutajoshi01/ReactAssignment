@@ -13,7 +13,6 @@ class Orders extends Component {
 
     render() {
         const { orders, loading } = this.props;
-        console.log(loading)
         let displayContent;
         if (loading)
             displayContent = <div className="topLoader"><ReactLoading type="spinningBubbles" color="rgb(49, 157, 219)" /></div>

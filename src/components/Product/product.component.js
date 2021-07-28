@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addToCartRequest, getCartCount } from '../../actions/cartActions';
-// import ReactLoading from 'react-loading';
 import "./product.css";
 class Product extends Component {
     constructor(props) {
@@ -23,17 +22,14 @@ class Product extends Component {
     }
     
     render() {
-        const { product } = this.props;
+        const { product, isInCart } = this.props;
         return (
             <div className="product">
                 <img className="image" src={product.imgPath} alt={product.name} />
                 <p className="name">{product.name}</p>
                 <p className="price">Price: ₹{product.price}</p>
                 <p className="category">Category: {product.category}</p>
-                <button className="add" onClick={(event) => this.handleClick(product.id, event)}>Add To Cart <i className="fa fa-cart-plus"></i></button><br />
-                {/* <button className="plus">+</button>
-                {() => this.getQuantity(product.id)}
-                <button className="minus">-</button> */}
+                <button className="add" disabled={isInCart} onClick={(event) => this.handleClick(product.id, event)}>Add To Cart <i className="fa fa-cart-plus"></i></button><br />
             </div>
         );
     }

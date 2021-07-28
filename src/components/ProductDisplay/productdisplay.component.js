@@ -11,7 +11,8 @@ class ProductDisplay extends Component {
         super(props)
         this.state = {
             page: 0,
-            limit: 12
+            limit: 8,
+            searchText: ''
         };
     }
 
@@ -19,19 +20,18 @@ class ProductDisplay extends Component {
         const { page, limit } = this.state;
         const { products } = this.props;
         if (products.length === 0) {
-            this.props.getProducts({ page: page, limit: limit });
+            this.props.getProducts({ page: page, limit: limit, searchText: this.props.searchText });
         }
-        this.setState({ page: this.state.page + 1 })
+        this.setState({ page: this.state.page + 1, searchText: this.props.searchText })
     }
 
     loadMoreitems = (page, limit) => {
+        this.props.loadMoreItems({ page: page, limit: limit, searchText: this.props.searchText });
         this.setState({ page: this.state.page + 1 })
-        this.props.loadMoreItems({ page: page, limit: limit });
-
     }
 
     render() {
-        let { products, loading, moreProducts } = this.props;
+        let { products, loading, moreProducts, cartItems } = this.props;
         const { page, limit } = this.state;
         let displayContent;
         if (loading && page === 1)
@@ -43,6 +43,7 @@ class ProductDisplay extends Component {
                         key={product.id}
                         product={product}
                         isAuthenticated={this.props.isAuthenticated}
+                        isInCart={cartItems.find(item => item.name === product.name)}
                     />
                 ))}
                 {loading && page > 0 && <div className="bottomLoader"><ReactLoading type="spinningBubbles" color="rgb(49, 157, 219)" /></div>}
@@ -60,6 +61,8 @@ const mapStateToProps = (state) => {
         loading: state.productsReducer.loading,
         products: state.productsReducer.products,
         moreProducts: state.productsReducer.moreProducts,
+        searchText: state.productsReducer.searchText,
+        cartItems: state.cartReducer.cartItems,
     }
 }
 
